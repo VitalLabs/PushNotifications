@@ -114,7 +114,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 
 		mNotificationManager.notify((String) appName, notId, mBuilder.build());
-		
+
 	}
 
 	public static void cancelNotification(Context context)
@@ -136,6 +136,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onError(Context context, String errorId) {
 		Log.e(TAG, "onError - errorId: " + errorId);
+                NotificationService.getInstance(context).onRegistrationError(errorId);
 	}
 
 }
