@@ -448,7 +448,9 @@ public class NotificationService {
                       + mNotificationService.mRegistrationErrorId
                       + "to callback: " + getRegisterCallBack().toString());
 
-                getRegisterCallBack().error(mNotificationService.mRegistrationErrorId);
+                getRegisterCallBack()
+                .sendPluginResult(new PluginResult(PluginResult.Status.ERROR,
+                                                   "Registration Failed"));
             }else{
                 Log.v(TAG,
                       "registration error -> No Register callback - webview: "
