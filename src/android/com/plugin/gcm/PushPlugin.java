@@ -91,8 +91,8 @@ public class PushPlugin extends CordovaPlugin {
   }
 
     class RegistrationRunnable implements Runnable{
-        private static JSONArray data;
-        private static CallbackContext callbackContext;
+        private JSONArray data;
+        private CallbackContext callbackContext;
 
         RegistrationRunnable(JSONArray data, CallbackContext callbackContext){
             this.data = data;
