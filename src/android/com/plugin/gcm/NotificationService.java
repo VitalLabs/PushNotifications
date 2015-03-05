@@ -446,7 +446,7 @@ public class NotificationService {
             if (getRegisterCallBack() != null){
                 Log.v(TAG, "CallbackContext found, sending error "
                       + mNotificationService.mRegistrationErrorId
-                      + "to callback: " + getRegisterCallBack().toString());
+                      + "to callback: " + getRegisterCallBack().getCallbackId());
 
                 getRegisterCallBack()
                 .sendPluginResult(new PluginResult(PluginResult.Status.ERROR,
