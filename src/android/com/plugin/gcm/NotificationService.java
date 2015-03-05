@@ -515,6 +515,11 @@ public class NotificationService {
         }
 
         public void setRegisterCallBack(CallbackContext callBack) {
+            Log.v(TAG, "Setting Register callback: "
+                  + callBack.toString()
+                  + " for webview: "
+                  + getWebView());
+
             mRegisterCallBack = callBack;
         }
 
