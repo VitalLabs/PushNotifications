@@ -99,8 +99,11 @@ public class PushPlugin extends CordovaPlugin {
 
     if (REGISTER.equals(action)) {
         this.cordova.getThreadPool()
-            .execute(new Runnable(){
-                    handleRegister(data, callbackContext);
+            .execute(
+               new Runnable(){
+                   public void run(){
+                     handleRegister(data, callbackContext);
+                   }
                 });
 
         result = true;
