@@ -45,7 +45,8 @@ public class PushPlugin extends CordovaPlugin {
     service = NotificationService.getInstance(appContext);
 
     readSenderIdFromCordovaConfig(service);
-    Log.v(TAG, "Initialized w/ Context: " appContext.toString());
+
+    Log.v(TAG, "Initialized w/ Context: " + appContext.toString());
   }
 
   private void readSenderIdFromCordovaConfig(NotificationService service) {
