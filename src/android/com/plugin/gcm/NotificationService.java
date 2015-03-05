@@ -447,13 +447,7 @@ public class NotificationService {
                 Log.v(TAG, "CallbackContext found, sending error "
                       + mNotificationService.mRegistrationErrorId
                       + "to callback: " + getRegisterCallBack().getCallbackId());
-                PluginResult errorResult = new PluginResult(PluginResult.Status.ERROR,
-                                                            mNotificationService.mRegistrationErrorId);
-
-                errorResult.setKeepCallback(true);
-
-                getRegisterCallBack()
-                    .sendPluginResult(errorResult);
+                getRegisterCallBack().success(mNotificationService.mRegistrationErrorId);
             }else{
                 Log.v(TAG,
                       "registration error -> No Register callback - webview: "
