@@ -448,7 +448,8 @@ public class NotificationService {
                 getRegisterCallBack().error(mNotificationService.mRegistrationErrorId);
             }else{
                 Log.v(TAG,
-                      "registration error -> No Register callback - webview: " getWebView();
+                      "registration error -> No Register callback - webview: "
+                      + getWebView());
             }
         }
 
