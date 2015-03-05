@@ -99,6 +99,7 @@ public class PushPlugin extends CordovaPlugin {
 
     if (REGISTER.equals(action)) {
 
+
       result = handleRegister(data, callbackContext);
 
     }
