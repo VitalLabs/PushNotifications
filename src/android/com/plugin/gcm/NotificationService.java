@@ -448,7 +448,7 @@ public class NotificationService {
                       + mNotificationService.mRegistrationErrorId
                       + "to callback: " + getRegisterCallBack().getCallbackId());
                 PluginResult errorResult = new PluginResult(PluginResult.Status.ERROR,
-                                                            mRegistrationErrorId);
+                                                            mNotificationService.mRegistrationErrorId);
 
                 errorResult.setKeepCallback(true);
 
