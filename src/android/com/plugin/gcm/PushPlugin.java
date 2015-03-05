@@ -98,10 +98,15 @@ public class PushPlugin extends CordovaPlugin {
     boolean result = false;
 
     if (REGISTER.equals(action)) {
+        this.cordova.getThreadPool()
+            .execute(new Runnable(){
+                    handleRegister(data, callbackContext);
+                });
+
+        result = true;
 
 
-      result = handleRegister(data, callbackContext);
-
+            //result = handleRegister(data, callbackContext);
     }
     else if (ON_MESSAGE_FOREGROUND.equals(action)) {
 
