@@ -49,7 +49,7 @@
 				<intent-filter>
 					<action android:name="com.google.android.c2dm.intent.RECEIVE" />
 					<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-					<category android:name="com.vitalreactor.orchestra2" />
+					<category android:name="$PACKAGE_NAME" />
 				</intent-filter>
 			</receiver>
 			<service android:name="com.plugin.gcm.GCMIntentService" />

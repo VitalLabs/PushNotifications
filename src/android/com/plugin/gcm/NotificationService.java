@@ -447,7 +447,7 @@ public class NotificationService {
                 Log.v(TAG, "CallbackContext found, sending error "
                       + mNotificationService.mRegistrationErrorId
                       + "to callback: " + getRegisterCallBack().getCallbackId());
-                getRegisterCallBack().success(mNotificationService.mRegistrationErrorId);
+                getRegisterCallBack().error(mNotificationService.mRegistrationErrorId);
             }else{
                 Log.v(TAG,
                       "registration error -> No Register callback - webview: "
