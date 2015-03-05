@@ -442,7 +442,7 @@ public class NotificationService {
 
         public void notifyRegistrationError() {
             Log.v(TAG,
-                  "GCM Registration Failed for webview " + getWebView());
+                  "GCM Registration Failed for webview: " + getWebView());
             if (getRegisterCallBack() != null){
                 Log.v(TAG, "CallbackContext found, sending error "
                       + mNotificationService.mRegistrationErrorId
