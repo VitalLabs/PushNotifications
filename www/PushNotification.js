@@ -1,11 +1,12 @@
-
   var exec = require('cordova/exec');
 
   var PushNotification = function() {};
 
   // Call this to register for push notifications. Content of [options] depends on whether we are working with APNS (iOS) or GCM (Android)
   PushNotification.prototype.register = function(successCallback, errorCallback, options) {
-    errorCallback = errorCallback || function() {};
+      errorCallback = errorCallback || function() {
+          console.log("Registration Failure");
+      };
 
     if (typeof errorCallback != "function")  {
       console.log("PushNotification.register failure: failure parameter not a function");
