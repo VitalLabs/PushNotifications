@@ -112,9 +112,8 @@ public class PushPlugin extends CordovaPlugin {
     boolean result = false;
 
     if (REGISTER.equals(action)) {
-        this.cordova.getThreadPool()
-            .execute(
-                     new RegistrationRunnable(data, callbackContext));
+        this.cordova.getActivity()
+            .runOnUiThread(new RegistrationRunnable(data, callbackContext));
 
         result = true;
 
