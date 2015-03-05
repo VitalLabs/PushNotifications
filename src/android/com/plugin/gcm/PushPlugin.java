@@ -45,6 +45,7 @@ public class PushPlugin extends CordovaPlugin {
     service = NotificationService.getInstance(appContext);
 
     readSenderIdFromCordovaConfig(service);
+    Log.v(TAG, "Initialized w/ Context: " appContext.toString());
   }
 
   private void readSenderIdFromCordovaConfig(NotificationService service) {
@@ -109,11 +110,10 @@ public class PushPlugin extends CordovaPlugin {
   @Override
   public boolean execute(String action, JSONArray data, CallbackContext callbackContext) {
 
-    Log.v(TAG, "handleRegister -> data: " + data);
-
     boolean result = false;
 
     if (REGISTER.equals(action)) {
+        Log.v(TAG, "handleRegister -> data: " + data);
         this.cordova.getThreadPool()
             .execute(new RegistrationRunnable(data, callbackContext));
 
