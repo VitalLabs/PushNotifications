@@ -99,6 +99,7 @@ public class NotificationService {
         }
     }
 
+    /*
     public void addRegisterCallBack(CordovaWebView webView, CallbackContext callBack) {
         WebViewReference webViewReference = getWebViewReference(webView);
         webViewReference.setRegisterCallBack(callBack);
@@ -108,6 +109,12 @@ public class NotificationService {
         } else {
             registerDevice();
         }
+        } */
+
+    public void addRegistrationHandler(CordovaWebView webView, AsyncRegistrationInterface ari){
+        WebViewReference webViewReference = getWebViewReference(webView);
+        webViewReference.setAsyncHandler(ari);
+
     }
 
     public void addNotificationForegroundCallBack(CordovaWebView webView,
@@ -383,6 +390,8 @@ public class NotificationService {
 
         private CallbackContext mRegisterCallBack;
 
+        private AsyncRegistrationInterface asyncHandler;
+
         private CallbackContext mNotificationForegroundCallBack;
 
         private CallbackContext mNotificationBackgroundCallBack;
@@ -424,6 +433,8 @@ public class NotificationService {
             return mNotifications.contains(notification);
         }
 
+        /*
+
         public void notifyRegistered() {
             if (hasNotifiedOfRegistered()) {
                 Log.v(TAG,
@@ -444,27 +455,61 @@ public class NotificationService {
             } else {
                 Log.v(TAG, "No Register callback - webview: " + getWebView());
             }
+            } */
+
+
+        public void notifyRegistered() {
+            if (hasNotifiedOfRegistered()) {
+                Log.v(TAG,
+                      "notifyRegistered() - Webview already notified of registration. skipping callback. webview: "
+                      + getWebView());
+                return;
+            }
+            Log.v(TAG,
+                  "GCM Registration Failed webview: " + getWebView());
+            AsyncRegistrationInterface handler = getAsyncHandler();
+            if (handler != null){
+                Log.v(TAG, "handler found, sending registration id "
+                      + mNotificationService.mRegistrationErrorId
+                      + "to handler: " + handler.toString());
+
+                handler.onRegistrationSuccess(mNotificationService.mRegistrationID);
+
+                //PluginResult result =
+                //    new PluginResult(PluginResult.Status.ERROR,
+                //                     mNotificationService.mRegistrationErrorId);
+                //
+                //result.setKeepCallback(false);
+
+                //callBack.sendPluginResult(result);
+            }else{
+                Log.v(TAG,
+                      "registration error -> No Register handler - webview: "
+                      + getWebView());
+            }
         }
 
         public void notifyRegistrationError() {
             Log.v(TAG,
                   "GCM Registration Failed for webview: " + getWebView());
-            CallbackContext callBack = getRegisterCallBack();
-            if (callBack != null){
-                Log.v(TAG, "CallbackContext found, sending error "
+            AsyncRegistrationInterface handler = getAsyncHandler();
+            if (handler != null){
+                Log.v(TAG, "handler found, sending error "
                       + mNotificationService.mRegistrationErrorId
-                      + "to callback: " + getRegisterCallBack().getCallbackId());
+                      + "to handler: " + handler.toString());
 
-                PluginResult result =
-                    new PluginResult(PluginResult.Status.ERROR,
-                                     mNotificationService.mRegistrationErrorId);
+                handler.onRegistrationFailure(mNotificationService.mRegistrationErrorId);
 
-                result.setKeepCallback(false);
+                //PluginResult result =
+                //    new PluginResult(PluginResult.Status.ERROR,
+                //                     mNotificationService.mRegistrationErrorId);
+                //
+                //result.setKeepCallback(false);
 
-                callBack.sendPluginResult(result);
+                //callBack.sendPluginResult(result);
             }else{
                 Log.v(TAG,
-                      "registration error -> No Register callback - webview: "
+                      "registration error -> No Register handler - webview: "
                       + getWebView());
             }
         }
@@ -534,6 +579,14 @@ public class NotificationService {
                   + getWebView());
 
             mRegisterCallBack = callBack;
+        }
+
+        public void setAsyncHandler(AsyncRegistrationInterface ari){
+            asyncHandler = ari;
+        }
+
+        public AsynRegistrationInterface getAsyncHandler(){
+            return asyncHandler;
         }
 
         public CallbackContext getRegisterCallBack() {

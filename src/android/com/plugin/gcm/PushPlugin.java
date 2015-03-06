@@ -16,7 +16,7 @@ import android.util.Log;
 /**
 * Push Notifications Plugin
 */
-public class PushPlugin extends CordovaPlugin {
+public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterface {
 
   public static final String TAG = "PushPlugin";
 
@@ -35,6 +35,7 @@ public class PushPlugin extends CordovaPlugin {
   public static final String GCM_SENDER_ID = "gcm_senderid";
 
   private CallbackContext registrationCallback;
+
 
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
@@ -80,7 +81,7 @@ public class PushPlugin extends CordovaPlugin {
 
       service.registerWebView(this.webView);
 
-      service.addRegisterCallBack(this.webView, this.registrationCallback);
+      service.addRegistrationHandler(this.webView,this);
 
       return true;
 
@@ -150,6 +151,22 @@ public class PushPlugin extends CordovaPlugin {
 
     return result;
   }
+
+  @override
+  public void onRegistrationSuccess(String registrationId){
+      PluginResult success =
+          new PluginResult(PluginResult.Status.OK, registrationId);
+      success.setKeepCallback(false);
+      this.registrationCallback.sendPluginResult(success);
+  }
+
+    @override
+    public void onRegistrationFailure(String errorId){
+        PluginResult success =
+            new PluginResult(PluginResult.Status.ERROR, errorId);
+        success.setKeepCallback(false);
+        this.registrationCallback.sendPluginResult(success);
+    }
 
   private boolean handleUnRegister(JSONArray data, CallbackContext callbackContext) {
     Log.v(TAG, "handleUnRegister() -> data: " + data);
