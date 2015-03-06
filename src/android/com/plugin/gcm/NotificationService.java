@@ -1,5 +1,6 @@
 package com.plugin.gcm;
 
+
 import android.app.NotificationManager;
 
 import com.google.android.gcm.GCMRegistrar;
@@ -585,7 +586,7 @@ public class NotificationService {
             asyncHandler = ari;
         }
 
-        public AsynRegistrationInterface getAsyncHandler(){
+        public AsyncRegistrationInterface getAsyncHandler(){
             return asyncHandler;
         }
 

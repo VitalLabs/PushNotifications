@@ -152,7 +152,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
     return result;
   }
 
-  @override
+  @Override
   public void onRegistrationSuccess(String registrationId){
       PluginResult success =
           new PluginResult(PluginResult.Status.OK, registrationId);
@@ -160,13 +160,13 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       this.registrationCallback.sendPluginResult(success);
   }
 
-    @override
-    public void onRegistrationFailure(String errorId){
-        PluginResult success =
-            new PluginResult(PluginResult.Status.ERROR, errorId);
-        success.setKeepCallback(false);
-        this.registrationCallback.sendPluginResult(success);
-    }
+  @Override
+  public void onRegistrationFailure(String errorId){
+      PluginResult success =
+          new PluginResult(PluginResult.Status.ERROR, errorId);
+      success.setKeepCallback(false);
+      this.registrationCallback.sendPluginResult(success);
+  }
 
   private boolean handleUnRegister(JSONArray data, CallbackContext callbackContext) {
     Log.v(TAG, "handleUnRegister() -> data: " + data);
