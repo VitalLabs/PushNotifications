@@ -63,9 +63,12 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
   private Context getApplicationContext() {
     return this.cordova.getActivity().getApplicationContext();
   }
-
+    @Override
     private boolean handleRegister(JSONArray data) {
     try {
+
+        //Log.v(TAG,
+        //      "Handling registration on separate thread ->" + data.toString());
 
       JSONObject jo = data.getJSONObject(0);
 
@@ -95,13 +98,17 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
     class RegistrationRunnable implements Runnable{
         private JSONArray data;
+        private AsyncRegistrationInterface iFace;
 
-        RegistrationRunnable(JSONArray data){
+        RegistrationRunnable(JSONArray data, AsyncRegistrationInterface iFace){
             this.data = data;
+            this.iFace = iFace;
+
+            Log.v(TAG, "iFace = " + iFace.toString());
         }
 
         public void run(){
-            PushPlugin.this.handleRegister(this.data);
+            iFace.handleRegister(this.data);
         }
     }
 
@@ -114,6 +121,8 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
         Log.v(TAG, "handleRegister -> data: " + data);
 
+        Log.v(TAG, "PushPlugin == " + this.toString());
+
         //need to keep a reference hanging around to the callback
         this.registrationCallback = callbackContext;
 
@@ -123,10 +132,10 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
         this.registrationCallback.sendPluginResult(temp);
 
-        this.cordova.getThreadPool()
-            .execute(new RegistrationRunnable(data));
+        //this.cordova.getThreadPool()
+        //    .execute(new RegistrationRunnable(data,this));
 
-        result = true;
+        result = handleRegister(data);
     }
     else if (ON_MESSAGE_FOREGROUND.equals(action)) {
 
@@ -154,6 +163,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
   @Override
   public void onRegistrationSuccess(String registrationId){
+      Log.v(TAG, "Registration Success called: " + registrationId);
       PluginResult success =
           new PluginResult(PluginResult.Status.OK, registrationId);
       success.setKeepCallback(false);
@@ -162,6 +172,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
   @Override
   public void onRegistrationFailure(String errorId){
+      Log.v(TAG, "Registration Failure called: " + errorId);
       PluginResult success =
           new PluginResult(PluginResult.Status.ERROR, errorId);
       success.setKeepCallback(false);

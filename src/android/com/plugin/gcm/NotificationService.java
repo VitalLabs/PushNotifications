@@ -467,7 +467,7 @@ public class NotificationService {
                 return;
             }
             Log.v(TAG,
-                  "GCM Registration Failed webview: " + getWebView());
+                  "GCM Registration webview: " + getWebView());
             AsyncRegistrationInterface handler = getAsyncHandler();
             if (handler != null){
                 Log.v(TAG, "handler found, sending registration id "
