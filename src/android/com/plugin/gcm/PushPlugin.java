@@ -33,27 +33,21 @@ public class PushPlugin extends CordovaPlugin {
 
   public static final String GCM_SENDER_ID = "gcm_senderid";
 
-  private static NotificationService service;
-
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
 
     LOG.setLogLevel(LOG.VERBOSE);
 
-    Context appContext = getApplicationContext();
-
-    service = NotificationService.getInstance(appContext);
-
-    readSenderIdFromCordovaConfig(service);
-
-    Log.v(TAG, "Initialized w/ Context: " + appContext.toString());
+    readSenderIdFromCordovaConfig();
   }
 
-  private void readSenderIdFromCordovaConfig(NotificationService service) {
+  private void readSenderIdFromCordovaConfig() {
     Bundle extras = cordova.getActivity().getIntent().getExtras();
     if(extras.containsKey(GCM_SENDER_ID)) {
       String senderID = extras.getString(GCM_SENDER_ID);
-      service.setSenderID(senderID);
+      NotificationService
+      .getInstance(getApplicationContext())
+      .setSenderID(senderID);
     }
   }
 
@@ -74,7 +68,7 @@ public class PushPlugin extends CordovaPlugin {
 
       Context appContext = getApplicationContext();
 
-      //NotificationService service = NotificationService.getInstance(appContext);
+      NotificationService service = NotificationService.getInstance(appContext);
 
       if(senderID != null && senderID.trim().length() > 0) {
         service.setSenderID(senderID);
@@ -114,14 +108,19 @@ public class PushPlugin extends CordovaPlugin {
     boolean result = false;
 
     if (REGISTER.equals(action)) {
+
         Log.v(TAG, "handleRegister -> data: " + data);
+
+        PluginResult temp = new PluginResult(PluginResult.Status.NO_RESULT);
+
+        temp.setKeepCallback(true);
+
+        callbackContext.sendPluginResult(temp);
+
         this.cordova.getThreadPool()
             .execute(new RegistrationRunnable(data, callbackContext));
 
         result = true;
-
-
-            //result = handleRegister(data, callbackContext);
     }
     else if (ON_MESSAGE_FOREGROUND.equals(action)) {
 
@@ -150,9 +149,9 @@ public class PushPlugin extends CordovaPlugin {
   private boolean handleUnRegister(JSONArray data, CallbackContext callbackContext) {
     Log.v(TAG, "handleUnRegister() -> data: " + data);
 
-    //NotificationService
-    //.getInstance(getApplicationContext())
-    service.unRegister();
+    NotificationService
+    .getInstance(getApplicationContext())
+    .unRegister();
 
     callbackContext.success();
     return true;
@@ -161,9 +160,9 @@ public class PushPlugin extends CordovaPlugin {
   private boolean handleOnMessageForeground(JSONArray data, CallbackContext callbackContext) {
     Log.v(TAG, "handleOnMessageForeground() -> data: " + data);
 
-    //NotificationService
-    //.getInstance(getApplicationContext())
-    service.addNotificationForegroundCallBack(this.webView, callbackContext);
+    NotificationService
+    .getInstance(getApplicationContext())
+    .addNotificationForegroundCallBack(this.webView, callbackContext);
 
     return true;
   }
@@ -171,9 +170,9 @@ public class PushPlugin extends CordovaPlugin {
   private boolean handleOnMessageBackground(JSONArray data, CallbackContext callbackContext) {
     Log.v(TAG, "handleOnMessageBackground() -> data: " + data);
 
-    //NotificationService
-    //.getInstance(getApplicationContext())
-    service.addNotificationBackgroundCallBack(this.webView, callbackContext);
+    NotificationService
+    .getInstance(getApplicationContext())
+    .addNotificationBackgroundCallBack(this.webView, callbackContext);
 
     return true;
   }
@@ -184,9 +183,9 @@ public class PushPlugin extends CordovaPlugin {
 
     Log.v(TAG, "onPause() -> webView: " + webView);
 
-    //NotificationService
-    //.getInstance(getApplicationContext())
-    service.setForeground(false);
+    NotificationService
+    .getInstance(getApplicationContext())
+    .setForeground(false);
   }
 
   @Override
@@ -195,9 +194,9 @@ public class PushPlugin extends CordovaPlugin {
 
     Log.v(TAG, "onResume() -> webView: " + webView);
 
-    //NotificationService
-    //.getInstance(getApplicationContext())
-    service.setForeground(true);
+    NotificationService
+    .getInstance(getApplicationContext())
+    .setForeground(true);
   }
 
 
@@ -205,9 +204,9 @@ public class PushPlugin extends CordovaPlugin {
 
     Log.v(TAG, "onDestroy() -> webView: " + webView);
 
-    //NotificationService
-    //.getInstance(getApplicationContext())
-    service.removeWebView(this.webView);
+    NotificationService
+    .getInstance(getApplicationContext())
+    .removeWebView(this.webView);
 
     super.onDestroy();
   }

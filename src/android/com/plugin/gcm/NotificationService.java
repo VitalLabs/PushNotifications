@@ -431,10 +431,14 @@ public class NotificationService {
                                 + getWebView());
                 return;
             }
-
-            if (getRegisterCallBack() != null) {
+            CallbackContext callBack = getRegisterCallBack();
+            if (callBack != null) {
                 setNotifiedOfRegistered(true);
-                getRegisterCallBack().success(mNotificationService.mRegistrationID);
+                PluginResult result =
+                    new PluginResult(PluginResult.Status.OK,
+                                     mNotificationService.mRegistrationID);
+                //result.setKeepCallback(true);
+                callBack.sendPluginResult(result);
             } else {
                 Log.v(TAG, "No Register callback - webview: " + getWebView());
             }
@@ -443,11 +447,19 @@ public class NotificationService {
         public void notifyRegistrationError() {
             Log.v(TAG,
                   "GCM Registration Failed for webview: " + getWebView());
-            if (getRegisterCallBack() != null){
+            CallbackContext callBack = getRegisterCallBack();
+            if (callBack != null){
                 Log.v(TAG, "CallbackContext found, sending error "
                       + mNotificationService.mRegistrationErrorId
                       + "to callback: " + getRegisterCallBack().getCallbackId());
-                getRegisterCallBack().error(mNotificationService.mRegistrationErrorId);
+
+                PluginResult result =
+                    new PluginResult(PluginResult.Status.ERROR,
+                                     mNotificationService.mRegistrationErrorId);
+
+                //result.setKeepCallback(true);
+
+                callBack.sendPluginResult(result);
             }else{
                 Log.v(TAG,
                       "registration error -> No Register callback - webview: "
