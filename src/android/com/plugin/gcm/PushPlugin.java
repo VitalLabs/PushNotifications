@@ -80,7 +80,7 @@ public class PushPlugin extends CordovaPlugin {
 
       service.registerWebView(this.webView);
 
-      service.addRegisterCallBack(this.webView, this.registerCallback);
+      service.addRegisterCallBack(this.webView, this.registrationCallback);
 
       return true;
 
