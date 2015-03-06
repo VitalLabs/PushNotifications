@@ -116,6 +116,12 @@ public class NotificationService {
         WebViewReference webViewReference = getWebViewReference(webView);
         webViewReference.setAsyncHandler(ari);
 
+        if (isRegistered()) {
+            webViewReference.notifyRegistered();
+        } else {
+            registerDevice();
+        }
+
     }
 
     public void addNotificationForegroundCallBack(CordovaWebView webView,
