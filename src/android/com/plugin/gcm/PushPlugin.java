@@ -64,7 +64,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
     return this.cordova.getActivity().getApplicationContext();
   }
     @Override
-    private boolean handleRegister(JSONArray data) {
+    public boolean handleRegister(JSONArray data) {
     try {
 
         //Log.v(TAG,
