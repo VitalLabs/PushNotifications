@@ -117,6 +117,7 @@ public class NotificationService {
         webViewReference.setAsyncHandler(ari);
 
         if (isRegistered()) {
+            Log.v(TAG, "isRegistered() true!!");
             webViewReference.notifyRegistered();
         } else {
             registerDevice();

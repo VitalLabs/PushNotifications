@@ -126,7 +126,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
         //need to keep a reference hanging around to the callback
         this.registrationCallback = callbackContext;
 
-        PluginResult temp = new PluginResult(PluginResult.Status.OK, "INITIALIZE");
+        PluginResult temp = new PluginResult(PluginResult.Status.NO_RESULT);
 
         temp.setKeepCallback(true);
 
@@ -166,8 +166,10 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
   public void onRegistrationSuccess(String registrationId){
       Log.v(TAG, "Registration Success called: "
             + registrationId
-            + " for instance "
-            + this.toString());
+            + " for instance WebView "
+            + this.webView.toString()
+            + " callBack "
+            + this.registrationCallback.getCallbackId());
       PluginResult success =
           new PluginResult(PluginResult.Status.OK, registrationId);
       success.setKeepCallback(false);
@@ -176,10 +178,12 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
   @Override
   public void onRegistrationFailure(String errorId){
-      Log.v(TAG, "Registration Failure called: "
-            + errorId
-            + " for instance "
-            + this.toString());
+      Log.v(TAG, "Registration Success called: "
+            + registrationId
+            + " for instance WebView "
+            + this.webView.toString()
+            + " callBack "
+            + this.registrationCallback.getCallbackId());
       PluginResult success =
           new PluginResult(PluginResult.Status.ERROR, errorId);
       success.setKeepCallback(false);
