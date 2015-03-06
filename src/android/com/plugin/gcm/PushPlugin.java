@@ -126,7 +126,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
         //need to keep a reference hanging around to the callback
         this.registrationCallback = callbackContext;
 
-        PluginResult temp = new PluginResult(PluginResult.Status.NO_RESULT);
+        PluginResult temp = new PluginResult(PluginResult.Status.OK, "INITIALIZE");
 
         temp.setKeepCallback(true);
 
