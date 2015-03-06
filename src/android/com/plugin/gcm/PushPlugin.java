@@ -158,12 +158,16 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       callbackContext.error("Invalid action : " + action);
     }
 
+    Log.v(TAG, "Exiting Exec method: " + this.toString());
     return result;
   }
 
   @Override
   public void onRegistrationSuccess(String registrationId){
-      Log.v(TAG, "Registration Success called: " + registrationId);
+      Log.v(TAG, "Registration Success called: "
+            + registrationId
+            + " for instance "
+            + this.toString());
       PluginResult success =
           new PluginResult(PluginResult.Status.OK, registrationId);
       success.setKeepCallback(false);
@@ -172,7 +176,10 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
   @Override
   public void onRegistrationFailure(String errorId){
-      Log.v(TAG, "Registration Failure called: " + errorId);
+      Log.v(TAG, "Registration Failure called: "
+            + errorId
+            + " for instance "
+            + this.toString());
       PluginResult success =
           new PluginResult(PluginResult.Status.ERROR, errorId);
       success.setKeepCallback(false);
