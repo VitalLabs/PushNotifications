@@ -63,7 +63,7 @@ public class PushPlugin extends CordovaPlugin {
     return this.cordova.getActivity().getApplicationContext();
   }
 
-    private boolean handleRegister(JSONArray data, CallbackContext callbackContext) {
+    private boolean handleRegister(JSONArray data) {
     try {
 
       JSONObject jo = data.getJSONObject(0);
@@ -80,7 +80,7 @@ public class PushPlugin extends CordovaPlugin {
 
       service.registerWebView(this.webView);
 
-      service.addRegisterCallBack(this.webView, callbackContext);
+      service.addRegisterCallBack(this.webView, this.registerCallback);
 
       return true;
 
@@ -94,15 +94,13 @@ public class PushPlugin extends CordovaPlugin {
 
     class RegistrationRunnable implements Runnable{
         private JSONArray data;
-        private CallbackContext callbackContext;
 
-        RegistrationRunnable(JSONArray data, CallbackContext callbackContext){
+        RegistrationRunnable(JSONArray data){
             this.data = data;
-            this.callbackContext = callbackContext;
         }
 
         public void run(){
-            PushPlugin.this.handleRegister(this.data, this.callbackContext);
+            PushPlugin.this.handleRegister(this.data);
         }
     }
 
@@ -125,7 +123,7 @@ public class PushPlugin extends CordovaPlugin {
         this.registrationCallback.sendPluginResult(temp);
 
         this.cordova.getThreadPool()
-            .execute(new RegistrationRunnable(data, this.registrationCallback));
+            .execute(new RegistrationRunnable(data));
 
         result = true;
     }
