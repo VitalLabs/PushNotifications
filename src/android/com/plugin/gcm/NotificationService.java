@@ -437,7 +437,9 @@ public class NotificationService {
                 PluginResult result =
                     new PluginResult(PluginResult.Status.OK,
                                      mNotificationService.mRegistrationID);
-                //result.setKeepCallback(true);
+
+                result.setKeepCallback(false);
+
                 callBack.sendPluginResult(result);
             } else {
                 Log.v(TAG, "No Register callback - webview: " + getWebView());
@@ -457,7 +459,7 @@ public class NotificationService {
                     new PluginResult(PluginResult.Status.ERROR,
                                      mNotificationService.mRegistrationErrorId);
 
-                //result.setKeepCallback(true);
+                result.setKeepCallback(false);
 
                 callBack.sendPluginResult(result);
             }else{

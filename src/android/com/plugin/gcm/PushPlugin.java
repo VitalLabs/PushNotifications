@@ -34,6 +34,8 @@ public class PushPlugin extends CordovaPlugin {
 
   public static final String GCM_SENDER_ID = "gcm_senderid";
 
+  private CallbackContext registrationCallback;
+
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
 
@@ -63,6 +65,7 @@ public class PushPlugin extends CordovaPlugin {
 
     private boolean handleRegister(JSONArray data, CallbackContext callbackContext) {
     try {
+
       JSONObject jo = data.getJSONObject(0);
 
       String senderID = (String) jo.get(SENDER_ID);
@@ -112,14 +115,17 @@ public class PushPlugin extends CordovaPlugin {
 
         Log.v(TAG, "handleRegister -> data: " + data);
 
+        //need to keep a reference hanging around to the callback
+        this.registrationCallback = callbackContext;
+
         PluginResult temp = new PluginResult(PluginResult.Status.NO_RESULT);
 
         temp.setKeepCallback(true);
 
-        callbackContext.sendPluginResult(temp);
+        this.registrationCallback.sendPluginResult(temp);
 
         this.cordova.getThreadPool()
-            .execute(new RegistrationRunnable(data, callbackContext));
+            .execute(new RegistrationRunnable(data, this.registrationCallback));
 
         result = true;
     }
