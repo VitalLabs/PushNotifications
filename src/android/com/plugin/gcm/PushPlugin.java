@@ -179,10 +179,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
             + this.registrationCallback.isChangingThreads());
 
 
-      Log.v(TAG, "WebView message queue paused? "
-            + this.webView.jsMessageQueue.getPaused());
-
-      Log.v(TAG, "CORDOVA VERSION " + this.webView.CORDOVA_VERSION);
+      this.webView.setNetworkAvailable(true);
 
       PluginResult success =
           new PluginResult(PluginResult.Status.OK, registrationId);
@@ -206,7 +203,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
             + this.registrationCallback.isChangingThreads());
 
 
-      Log.v(TAG, "CORDOVA VERSION " + this.webView.CORDOVA_VERSION);
+      this.webView.setNetworkAvailable(true);
 
       PluginResult error =
           new PluginResult(PluginResult.Status.ERROR, errorId);
