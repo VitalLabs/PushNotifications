@@ -170,6 +170,15 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
             + this.webView.toString()
             + " callBack "
             + this.registrationCallback.getCallbackId());
+
+      Log.v(TAG, "CallbackContext Finished? "
+            + this.registrationCallback.isFinished());
+
+      Log.v(TAG, "CallbackContext is changing threads? "
+            + this.registrationCallback.isChangingThreads());
+
+      Log.v(TAG, "WebView initialized? " + this.webView.isInitialized());
+
       PluginResult success =
           new PluginResult(PluginResult.Status.OK, registrationId);
       success.setKeepCallback(false);
@@ -184,10 +193,19 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
             + this.webView.toString()
             + " callBack "
             + this.registrationCallback.getCallbackId());
-      PluginResult success =
+
+      Log.v(TAG, "CallbackContext Finished? "
+            + this.registrationCallback.isFinished());
+
+      Log.v(TAG, "CallbackContext is changing threads? "
+            + this.registrationCallback.isChangingThreads());
+
+      Log.v(TAG, "WebView initialized? " + this.webView.isInitialized());
+
+      PluginResult error =
           new PluginResult(PluginResult.Status.ERROR, errorId);
-      success.setKeepCallback(false);
-      this.registrationCallback.sendPluginResult(success);
+      error.setKeepCallback(false);
+      this.registrationCallback.sendPluginResult(error);
   }
 
   private boolean handleUnRegister(JSONArray data, CallbackContext callbackContext) {

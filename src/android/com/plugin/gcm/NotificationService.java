@@ -478,7 +478,7 @@ public class NotificationService {
             AsyncRegistrationInterface handler = getAsyncHandler();
             if (handler != null){
                 Log.v(TAG, "handler found, sending registration id "
-                      + mNotificationService.mRegistrationErrorId
+                      + mNotificationService.mRegistrationID
                       + "to handler: " + handler.toString());
 
                 handler.onRegistrationSuccess(mNotificationService.mRegistrationID);
