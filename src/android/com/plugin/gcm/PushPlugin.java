@@ -4,7 +4,6 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.NativeToJsMessageQueue;
 import org.apache.cordova.PluginResult;
 import org.apache.cordova.LOG;
 import org.json.JSONArray;
@@ -183,6 +182,8 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       Log.v(TAG, "WebView message queue paused? "
             + this.webView.jsMessageQueue.getPaused());
 
+      Log.v(TAG, "CORDOVA VERSION " + this.webView.CORDOVA_VERSION);
+
       PluginResult success =
           new PluginResult(PluginResult.Status.OK, registrationId);
       success.setKeepCallback(false);
@@ -205,8 +206,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
             + this.registrationCallback.isChangingThreads());
 
 
-      Log.v(TAG, "WebView message queue paused? "
-            + this.webView.jsMessageQueue.getPaused());
+      Log.v(TAG, "CORDOVA VERSION " + this.webView.CORDOVA_VERSION);
 
       PluginResult error =
           new PluginResult(PluginResult.Status.ERROR, errorId);
