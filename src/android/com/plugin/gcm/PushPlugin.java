@@ -4,7 +4,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.CordovaWebViewImpl;
+import org.apache.cordova.NativeToJsMessageQueue;
 import org.apache.cordova.PluginResult;
 import org.apache.cordova.LOG;
 import org.json.JSONArray;
@@ -179,10 +179,9 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       Log.v(TAG, "CallbackContext is changing threads? "
             + this.registrationCallback.isChangingThreads());
 
-      CordovaWebViewImpl wvi =
-          (CordovaWebViewImpl)this.webView;
 
-      Log.v(TAG, "WebView initialized? " + wvi.isInitialized());
+      Log.v(TAG, "WebView message queue paused? "
+            + this.webView.jsMessageQueue.getPaused());
 
       PluginResult success =
           new PluginResult(PluginResult.Status.OK, registrationId);
@@ -205,10 +204,9 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       Log.v(TAG, "CallbackContext is changing threads? "
             + this.registrationCallback.isChangingThreads());
 
-      CordovaWebViewImpl wvi =
-          (CordovaWebViewImpl)this.webView;
 
-      Log.v(TAG, "WebView initialized? " + wvi.isInitialized());
+      Log.v(TAG, "WebView message queue paused? "
+            + this.webView.jsMessageQueue.getPaused());
 
       PluginResult error =
           new PluginResult(PluginResult.Status.ERROR, errorId);
