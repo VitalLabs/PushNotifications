@@ -167,7 +167,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
   @Override
   public void onRegistrationSuccess(String registrationId){
 
-      final resultString = registrationID;
+      final String resultString = registrationID;
       Log.v(TAG, "Registration Success called: "
             + registrationId
             + " for instance WebView "
@@ -199,7 +199,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
   @Override
   public void onRegistrationFailure(String errorId){
 
-      final resultString = errorId;
+      final String resultString = errorId;
       Log.v(TAG, "Registration Failure called: "
             + errorId
             + " for instance WebView "
