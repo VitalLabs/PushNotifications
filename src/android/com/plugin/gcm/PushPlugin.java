@@ -162,8 +162,12 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
     return result;
   }
 
+
+
   @Override
   public void onRegistrationSuccess(String registrationId){
+
+      final resultString = registrationID;
       Log.v(TAG, "Registration Success called: "
             + registrationId
             + " for instance WebView "
@@ -180,18 +184,22 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
       this.cordova.getActivity().runOnUiThread(new Runnable(){
               public void run(){
-                  this.webView.setNetworkAvailable(true);
+                  PushPlugin.this.webView.setNetworkAvailable(true);
 
                   PluginResult success =
-                      new PluginResult(PluginResult.Status.OK, registrationId);
+                      new PluginResult(PluginResult.Status.OK, resultString);
                   success.setKeepCallback(false);
-                  this.registrationCallback.sendPluginResult(success);
+                  PushPlugun.this.registrationCallback.sendPluginResult(success);
               };
           });
   }
 
+
+
   @Override
   public void onRegistrationFailure(String errorId){
+
+      final resultString = errorId;
       Log.v(TAG, "Registration Failure called: "
             + errorId
             + " for instance WebView "
@@ -207,12 +215,12 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
       this.cordova.getActivity().runOnUiThread(new Runnable(){
               public void run(){
-                  this.webView.setNetworkAvailable(true);
+                  PushPlugin.this.webView.setNetworkAvailable(true);
 
                   PluginResult success =
-                      new PluginResult(PluginResult.Status.OK, registrationId);
+                      new PluginResult(PluginResult.Status.OK, resultString);
                   success.setKeepCallback(false);
-                  this.registrationCallback.sendPluginResult(success);
+                  PushPlugin.this.registrationCallback.sendPluginResult(success);
               };
           });
 
