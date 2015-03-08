@@ -178,13 +178,16 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       Log.v(TAG, "CallbackContext is changing threads? "
             + this.registrationCallback.isChangingThreads());
 
+      this.cordova.getActivity().runOnUiThread(new Runnable(){
+              public void run(){
+                  this.webView.setNetworkAvailable(true);
 
-      this.webView.setNetworkAvailable(true);
-
-      PluginResult success =
-          new PluginResult(PluginResult.Status.OK, registrationId);
-      success.setKeepCallback(false);
-      this.registrationCallback.sendPluginResult(success);
+                  PluginResult success =
+                      new PluginResult(PluginResult.Status.OK, registrationId);
+                  success.setKeepCallback(false);
+                  this.registrationCallback.sendPluginResult(success);
+              };
+          });
   }
 
   @Override
@@ -202,13 +205,23 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       Log.v(TAG, "CallbackContext is changing threads? "
             + this.registrationCallback.isChangingThreads());
 
+      this.cordova.getActivity().runOnUiThread(new Runnable(){
+              public void run(){
+                  this.webView.setNetworkAvailable(true);
 
-      this.webView.setNetworkAvailable(true);
+                  PluginResult success =
+                      new PluginResult(PluginResult.Status.OK, registrationId);
+                  success.setKeepCallback(false);
+                  this.registrationCallback.sendPluginResult(success);
+              };
+          });
 
-      PluginResult error =
-          new PluginResult(PluginResult.Status.ERROR, errorId);
-      error.setKeepCallback(false);
-      this.registrationCallback.sendPluginResult(error);
+      //this.webView.setNetworkAvailable(true);
+
+      //PluginResult error =
+      //    new PluginResult(PluginResult.Status.ERROR, errorId);
+      //error.setKeepCallback(false);
+      //this.registrationCallback.sendPluginResult(error);
   }
 
   private boolean handleUnRegister(JSONArray data, CallbackContext callbackContext) {
