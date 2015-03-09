@@ -4,6 +4,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -96,7 +97,12 @@ public class PushPlugin extends CordovaPlugin {
 
     if (REGISTER.equals(action)) {
 
-      result = handleRegister(data, callbackContext);
+        PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
+        pr.setKeepCallback(true);
+
+        callbackContext.sendPluginResult(pr);
+
+        result = handleRegister(data, callbackContext);
 
     }
     else if (ON_MESSAGE_FOREGROUND.equals(action)) {
