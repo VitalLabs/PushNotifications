@@ -67,8 +67,6 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
     public boolean handleRegister(JSONArray data) {
     try {
 
-        //Log.v(TAG,
-        //      "Handling registration on separate thread ->" + data.toString());
 
       JSONObject jo = data.getJSONObject(0);
 
@@ -123,7 +121,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
         Log.v(TAG, "PushPlugin == " + this.toString());
 
-        //need to keep a reference hanging around to the callback
+        //need to keep a reference to the callback.
         this.registrationCallback = callbackContext;
 
         PluginResult temp = new PluginResult(PluginResult.Status.NO_RESULT);
@@ -132,10 +130,11 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
         this.registrationCallback.sendPluginResult(temp);
 
+        //Take registration off of WebCore thread
         this.cordova.getThreadPool()
             .execute(new RegistrationRunnable(data,this));
 
-        //result = handleRegister(data);
+
         result = true;
     }
     else if (ON_MESSAGE_FOREGROUND.equals(action)) {
@@ -159,7 +158,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       callbackContext.error("Invalid action : " + action);
     }
 
-    Log.v(TAG, "Exiting Exec method: " + this.toString());
+
     return result;
   }
 
@@ -180,17 +179,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
           = new PluginResult(PluginResult.Status.OK, registrationId);
       success.setKeepCallback(false);
       this.registrationCallback.sendPluginResult(success);
-      /*
-      this.cordova.getActivity().runOnUiThread(new Runnable(){
-              public void run(){
-                  PushPlugin.this.webView.setNetworkAvailable(true);
 
-                  PluginResult success =
-                      new PluginResult(PluginResult.Status.OK, resultString);
-                  success.setKeepCallback(false);
-                  PushPlugin.this.registrationCallback.sendPluginResult(success);
-              };
-              });*/
   }
 
 
@@ -211,25 +200,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       error.setKeepCallback(false);
       this.registrationCallback.sendPluginResult(error);
 
-      /*
-      this.cordova.getActivity().runOnUiThread(new Runnable(){
-              public void run(){
-                  PushPlugin.this.webView.setNetworkAvailable(true);
-
-                  PluginResult success =
-                      new PluginResult(PluginResult.Status.OK, resultString);
-                  success.setKeepCallback(false);
-                  PushPlugin.this.registrationCallback.sendPluginResult(success);
-              };
-              }); */
-
-      //this.webView.setNetworkAvailable(true);
-
-      //PluginResult error =
-      //    new PluginResult(PluginResult.Status.ERROR, errorId);
-      //error.setKeepCallback(false);
-      //this.registrationCallback.sendPluginResult(error);
-  }
+     }
 
   private boolean handleUnRegister(JSONArray data, CallbackContext callbackContext) {
     Log.v(TAG, "handleUnRegister() -> data: " + data);
