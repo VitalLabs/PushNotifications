@@ -132,10 +132,11 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
 
         this.registrationCallback.sendPluginResult(temp);
 
-        //this.cordova.getThreadPool()
-        //    .execute(new RegistrationRunnable(data,this));
+        this.cordova.getThreadPool()
+            .execute(new RegistrationRunnable(data,this));
 
-        result = handleRegister(data);
+        //result = handleRegister(data);
+        result = true;
     }
     else if (ON_MESSAGE_FOREGROUND.equals(action)) {
 
@@ -175,13 +176,11 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
             + " callBack "
             + this.registrationCallback.getCallbackId());
 
-      Log.v(TAG, "CallbackContext Finished? "
-            + this.registrationCallback.isFinished());
-
-
-      Log.v(TAG, "CallbackContext is changing threads? "
-            + this.registrationCallback.isChangingThreads());
-
+      PluginResult success
+          = new PluginResult(PluginResult.Status.OK, registrationId);
+      success.setKeepCallback(false);
+      this.registrationCallback.sendPluginResult(success);
+      /*
       this.cordova.getActivity().runOnUiThread(new Runnable(){
               public void run(){
                   PushPlugin.this.webView.setNetworkAvailable(true);
@@ -191,7 +190,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
                   success.setKeepCallback(false);
                   PushPlugin.this.registrationCallback.sendPluginResult(success);
               };
-          });
+              });*/
   }
 
 
@@ -207,12 +206,12 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
             + " callBack "
             + this.registrationCallback.getCallbackId());
 
-      Log.v(TAG, "CallbackContext Finished? "
-            + this.registrationCallback.isFinished());
+      PluginResult error
+          = new PluginResult(PluginResult.Status.ERROR, errorId);
+      error.setKeepCallback(false);
+      this.registrationCallback.sendPluginResult(error);
 
-      Log.v(TAG, "CallbackContext is changing threads? "
-            + this.registrationCallback.isChangingThreads());
-
+      /*
       this.cordova.getActivity().runOnUiThread(new Runnable(){
               public void run(){
                   PushPlugin.this.webView.setNetworkAvailable(true);
@@ -222,7 +221,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
                   success.setKeepCallback(false);
                   PushPlugin.this.registrationCallback.sendPluginResult(success);
               };
-          });
+              }); */
 
       //this.webView.setNetworkAvailable(true);
 
