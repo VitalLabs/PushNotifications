@@ -100,17 +100,6 @@ public class NotificationService {
         }
     }
 
-    /*
-    public void addRegisterCallBack(CordovaWebView webView, CallbackContext callBack) {
-        WebViewReference webViewReference = getWebViewReference(webView);
-        webViewReference.setRegisterCallBack(callBack);
-
-        if (isRegistered()) {
-            webViewReference.notifyRegistered();
-        } else {
-            registerDevice();
-        }
-        } */
 
     public void addRegistrationHandler(CordovaWebView webView, AsyncRegistrationInterface ari){
         WebViewReference webViewReference = getWebViewReference(webView);
@@ -441,29 +430,6 @@ public class NotificationService {
             return mNotifications.contains(notification);
         }
 
-        /*
-
-        public void notifyRegistered() {
-            if (hasNotifiedOfRegistered()) {
-                Log.v(TAG,
-                        "notifyRegistered() - Webview already notified of registration. skipping callback. webview: "
-                                + getWebView());
-                return;
-            }
-            CallbackContext callBack = getRegisterCallBack();
-            if (callBack != null) {
-                setNotifiedOfRegistered(true);
-                PluginResult result =
-                    new PluginResult(PluginResult.Status.OK,
-                                     mNotificationService.mRegistrationID);
-
-                result.setKeepCallback(false);
-
-                callBack.sendPluginResult(result);
-            } else {
-                Log.v(TAG, "No Register callback - webview: " + getWebView());
-            }
-            } */
 
 
         public void notifyRegistered() {
@@ -483,13 +449,7 @@ public class NotificationService {
 
                 handler.onRegistrationSuccess(mNotificationService.mRegistrationID);
 
-                //PluginResult result =
-                //    new PluginResult(PluginResult.Status.ERROR,
-                //                     mNotificationService.mRegistrationErrorId);
-                //
-                //result.setKeepCallback(false);
 
-                //callBack.sendPluginResult(result);
             }else{
                 Log.v(TAG,
                       "registration error -> No Register handler - webview: "
@@ -508,13 +468,7 @@ public class NotificationService {
 
                 handler.onRegistrationFailure(mNotificationService.mRegistrationErrorId);
 
-                //PluginResult result =
-                //    new PluginResult(PluginResult.Status.ERROR,
-                //                     mNotificationService.mRegistrationErrorId);
-                //
-                //result.setKeepCallback(false);
 
-                //callBack.sendPluginResult(result);
             }else{
                 Log.v(TAG,
                       "registration error -> No Register handler - webview: "
