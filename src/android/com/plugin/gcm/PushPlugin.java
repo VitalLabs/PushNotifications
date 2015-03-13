@@ -158,7 +158,7 @@ public class PushPlugin extends CordovaPlugin implements AsyncRegistrationInterf
       callbackContext.error("Invalid action : " + action);
     }
 
-
+    Log.v(TAG, "Exiting exec");
     return result;
   }
 
